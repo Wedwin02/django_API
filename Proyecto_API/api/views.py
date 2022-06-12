@@ -93,8 +93,35 @@ class EmpleadosView(View):
         return JsonResponse(datos)
 
     def post(self,request):
-        pass
-    def put(self,request):
-        pass
-    def delete(self,request):
-        pass
+        jd = json.loads(request.body)
+        EmpleadoClases.objects.create(lastname=jd['lastname'],firstname=jd['firstname'],email=jd['email'],FechaNaciemiento=jd['FechaNaciemiento'])
+        datos = {'message': "Success"}
+        return JsonResponse(datos)
+
+
+    def put(self,request,id):
+        jd = json.loads(request.body)
+        Empleado = list(EmpleadoClases.objects.filter(id=id).values())
+        if len(Empleado)>0:
+            #En este punto se conoce que almenos uno esta 
+            empleado = EmpleadoClases.objects.get(id=id)
+            empleado.lastname = jd['lastname'],
+            empleado.firstname = jd['firstname'],
+            empleado.email = jd['email'],
+            empleado.FechaNaciemiento = jd['FechaNaciemiento']
+            empleado.save()
+            datos = {'message': "Success"}
+        else:
+            datos = {'message': "Companies not founds.."}
+        return JsonResponse(datos)
+
+
+
+    def delete(self,request,id):
+        Empleado = list(EmpleadoClases.objects.filter(id=id).values())
+        if len(Empleado)>0:
+            EmpleadoClases.objects.filter(id=id).delete()
+            datos = {'message': "Success"}
+        else:
+            datos = {'message': "Companies not founds.."}
+        return JsonResponse(datos)

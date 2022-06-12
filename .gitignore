@@ -1,3 +1,5 @@
 ayuda.txt
-env/
+/env/
+__pycache__/
+*.py[cod]
 Proyecto_API/Proyecto_API/settings.py
